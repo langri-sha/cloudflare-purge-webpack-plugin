@@ -24,7 +24,7 @@ function compile (plugin = null) {
     },
     plugins: plugin && [plugin] || []
   })
-  compiler.fileSystem = new MemoryFs();
+  compiler.fileSystem = new MemoryFs()
 
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
@@ -43,19 +43,20 @@ function compile (plugin = null) {
 }
 
 test('Test Webpack compiler setup', async t => {
-  let compiler, stats
   t.plan(2)
 
   t.notThrows(async () => {
     await compile()
   })
 
-  await compile(new class {
-    apply(compiler) {
+  class TestPlugin {
+    apply (compiler) {
       compiler.plugin('emit', (compilation, callback) => {
         t.pass()
         callback()
       })
     }
-  })
+  }
+
+  await compile(new TestPlugin())
 })
