@@ -1,0 +1,7 @@
+.*
+!.gitignore
+!.babelrc
+!.editorconfig
+!.travis.yml
+
+node_modules/
